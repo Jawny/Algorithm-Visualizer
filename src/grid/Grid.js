@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import Node from "../node/Node";
 import "./Grid.css";
 import BFS from "../algorithms/BreadthFirstSearch";
+import DFS from "../algorithms/DepthFirstSearch";
 
 const cols = 15;
 const rows = 15;
 
 const NODE_START_ROW = 0;
 const NODE_START_COL = 0;
-const NODE_END_ROW = rows - 1;
-const NODE_END_COL = cols - 1;
+const NODE_END_ROW = 6;
+const NODE_END_COL = 3;
 
 const Grid = () => {
   const [grid, setGrid] = useState([]);
@@ -42,6 +43,9 @@ const Grid = () => {
   function Spot(i, j, val) {
     this.x = i;
     this.y = j;
+    this.g = 0;
+    this.h = 0;
+    this.f = 0;
     this.val = val;
     this.isVisited = false;
     this.isStart = this.x === NODE_START_ROW && this.y === NODE_START_COL;
@@ -51,7 +55,10 @@ const Grid = () => {
   // resultNodes = result steps to play back algorithm
   const runAlgorithm = (resultNodes) => {
     let interval = setInterval(function () {
-      if (resultNodes.length === 0) {
+      if (
+        resultNodes[0] === grid[NODE_END_ROW][NODE_END_COL] ||
+        resultNodes.length === 0
+      ) {
         clearInterval(interval);
         return;
       }
@@ -79,6 +86,28 @@ const Grid = () => {
       setGrid(newGrid);
     }, 50);
   };
+
+  //clear the grid and reset it to default
+  const clearGrid = () => {
+    let newGrid = [];
+
+    for (let i = 0; i < grid.length; i++) {
+      newGrid.push([]);
+      for (let j = 0; j < grid[0].length; j++) {
+        newGrid[i].push(0);
+      }
+    }
+
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        grid[i][j].isVisited = false;
+        newGrid[i][j] = JSON.parse(JSON.stringify(grid[i][j]));
+      }
+    }
+
+    setGrid(newGrid);
+  };
+
   // Create grid with nodes
   const gridWithNode = (
     <div>
@@ -112,10 +141,29 @@ const Grid = () => {
       <button
         className="BFS"
         onClick={() => {
-          runAlgorithm(BFS(grid[0][0], grid));
+          clearGrid();
+          runAlgorithm(BFS(grid[NODE_START_ROW][NODE_START_COL], grid));
         }}
       >
         Breadth First Search
+      </button>
+      <button
+        className="DFS"
+        onClick={() => {
+          clearGrid();
+          runAlgorithm(DFS(grid[NODE_START_ROW][NODE_START_COL], grid));
+        }}
+      >
+        {" "}
+        Depth First Search
+      </button>
+      <button
+        className="clear"
+        onClick={() => {
+          clearGrid();
+        }}
+      >
+        Clear Grid
       </button>
     </div>
   );
