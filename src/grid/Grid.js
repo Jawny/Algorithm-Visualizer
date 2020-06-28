@@ -4,13 +4,13 @@ import "./Grid.css";
 import BFS from "../algorithms/BreadthFirstSearch";
 import DFS from "../algorithms/DepthFirstSearch";
 
-const cols = 15;
-const rows = 15;
+const cols = 20;
+const rows = 20;
 
-const NODE_START_ROW = 0;
-const NODE_START_COL = 0;
-const NODE_END_ROW = 6;
-const NODE_END_COL = 3;
+let NODE_START_ROW = 10;
+let NODE_START_COL = 5;
+let NODE_END_ROW = 10;
+let NODE_END_COL = 19;
 
 const Grid = () => {
   const [grid, setGrid] = useState([]);
@@ -110,7 +110,7 @@ const Grid = () => {
 
   // Create grid with nodes
   const gridWithNode = (
-    <div>
+    <div className="grid">
       {grid.map((rowOfSpots, rowIndex) => {
         return (
           <div key={rowIndex} className="row">
@@ -134,12 +134,83 @@ const Grid = () => {
       })}
     </div>
   );
+  // Change start node Row position
+  const handleStartChangeRow = (event) => {
+    // Set current starting node to false
+    grid[NODE_START_ROW][NODE_START_COL].isStart = false;
+    // check if event value is valid
+    if (event.target.value === "" || isNaN(event.target.value)) {
+    } else {
+      NODE_START_ROW = event.target.value;
+    }
+    // set new start row node
+    grid[NODE_START_ROW][NODE_START_COL].isStart = true;
+    deepCopyAndSetGridState(grid);
+  };
+
+  // Change start node Col position
+  const handleStartChangeCol = (event) => {
+    // Set current starting node to false
+    grid[NODE_START_ROW][NODE_START_COL].isStart = false;
+    // check if event value is valid
+    if (event.target.value === "" || isNaN(event.target.value)) {
+    } else {
+      NODE_START_COL = event.target.value;
+    }
+    // set new start col node
+    grid[NODE_START_ROW][NODE_START_COL].isStart = true;
+    deepCopyAndSetGridState(grid);
+  };
+  // Change end node Row position
+  const handleEndChangeRow = (event) => {
+    // Set current starting node to false
+    grid[NODE_END_ROW][NODE_END_COL].isEnd = false;
+    // check if event value is valid
+    if (event.target.value === "" || isNaN(event.target.value)) {
+    } else {
+      NODE_END_ROW = event.target.value;
+    }
+    // set new start row node
+    grid[NODE_END_ROW][NODE_END_COL].isEnd = true;
+    deepCopyAndSetGridState(grid);
+  };
+  // Change end node Col position
+  const handleEndChangeCol = (event) => {
+    // Set current end node to false
+    grid[NODE_END_ROW][NODE_END_COL].isEnd = false;
+    // check if event value is valid
+    if (event.target.value === "" || isNaN(event.target.value)) {
+    } else {
+      NODE_END_COL = event.target.value;
+    }
+    // set new end col node
+    grid[NODE_END_ROW][NODE_END_COL].isEnd = true;
+    deepCopyAndSetGridState(grid);
+  };
+
+  const deepCopyAndSetGridState = (grid) => {
+    let newGrid = [];
+    for (let i = 0; i < grid.length; i++) {
+      newGrid.push([]);
+      for (let j = 0; j < grid[0].length; j++) {
+        newGrid[i].push(0);
+      }
+    }
+
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        newGrid[i][j] = JSON.parse(JSON.stringify(grid[i][j]));
+      }
+    }
+    setGrid(newGrid);
+  };
+
   return (
-    <div className="grid">
+    <div className="screen">
       <h1> Grid </h1>
-      {gridWithNode}
+      <div>{gridWithNode}</div>
       <button
-        className="BFS"
+        className="btn btn-primary mr-1"
         onClick={() => {
           clearGrid();
           runAlgorithm(BFS(grid[NODE_START_ROW][NODE_START_COL], grid));
@@ -148,7 +219,7 @@ const Grid = () => {
         Breadth First Search
       </button>
       <button
-        className="DFS"
+        className="btn btn-primary mr-1"
         onClick={() => {
           clearGrid();
           runAlgorithm(DFS(grid[NODE_START_ROW][NODE_START_COL], grid));
@@ -158,13 +229,46 @@ const Grid = () => {
         Depth First Search
       </button>
       <button
-        className="clear"
+        className="btn btn-primary mr-1"
         onClick={() => {
           clearGrid();
         }}
       >
         Clear Grid
       </button>
+      <div>
+        <label>
+          Start position
+          {/* start node row */}
+          <input
+            type="text"
+            placeholder="Start Node Row Position"
+            name="x-coord"
+            onChange={handleStartChangeRow}
+          />
+          {/* start node col */}
+          <input
+            type="text"
+            placeholder="Start Node Column Position"
+            name="y-coord"
+            onChange={handleStartChangeCol}
+          />
+          {/* end node row */}
+          <input
+            type="text"
+            placeholder="End Node Row Position"
+            name="y-coord"
+            onChange={handleEndChangeRow}
+          />
+          {/* end node col */}
+          <input
+            type="text"
+            placeholder="End Node Column Position"
+            name="y-coord"
+            onChange={handleEndChangeCol}
+          />
+        </label>
+      </div>
     </div>
   );
 };
