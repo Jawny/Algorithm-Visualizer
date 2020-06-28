@@ -110,28 +110,30 @@ const Grid = () => {
 
   // Create grid with nodes
   const gridWithNode = (
-    <div className="grid">
-      {grid.map((rowOfSpots, rowIndex) => {
-        return (
-          <div key={rowIndex} className="row">
-            {rowOfSpots.map((spot, spotIndex) => {
-              // the line below this comment is same as the 3 commented lines below
-              const { isStart, isEnd, isVisited } = spot;
-              // const isStart = spot.isStart;
-              // const isEnd = spot.isEnd;
-              // const isVisited = spot.isVisited;
-              return (
-                <Node
-                  key={spotIndex}
-                  isStart={isStart}
-                  isEnd={isEnd}
-                  isVisited={isVisited}
-                />
-              );
-            })}
-          </div>
-        );
-      })}
+    <div className="d-inline-block">
+      <div>
+        {grid.map((rowOfSpots, rowIndex) => {
+          return (
+            <div key={rowIndex} className="row">
+              {rowOfSpots.map((spot, spotIndex) => {
+                // the line below this comment is same as the 3 commented lines below
+                const { isStart, isEnd, isVisited } = spot;
+                // const isStart = spot.isStart;
+                // const isEnd = spot.isEnd;
+                // const isVisited = spot.isVisited;
+                return (
+                  <Node
+                    key={spotIndex}
+                    isStart={isStart}
+                    isEnd={isEnd}
+                    isVisited={isVisited}
+                  />
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
   // Change start node Row position
@@ -207,7 +209,7 @@ const Grid = () => {
 
   return (
     <div className="screen">
-      <h1> Grid </h1>
+      <h1> Algorithm Visualizer </h1>
       <div>{gridWithNode}</div>
       <button
         className="btn btn-primary mr-1"
@@ -237,33 +239,38 @@ const Grid = () => {
         Clear Grid
       </button>
       <div>
+        <div className="pull-left">
+          <label>
+            Start position
+            {/* start node row */}
+            <input
+              type="text"
+              placeholder="Start Node x-coord"
+              name="x-coord"
+              onChange={handleStartChangeRow}
+            />
+            {/* start node col */}
+            <input
+              type="text"
+              placeholder="Start Node y-coord"
+              name="y-coord"
+              onChange={handleStartChangeCol}
+            />
+          </label>
+        </div>
         <label>
-          Start position
-          {/* start node row */}
-          <input
-            type="text"
-            placeholder="Start Node Row Position"
-            name="x-coord"
-            onChange={handleStartChangeRow}
-          />
-          {/* start node col */}
-          <input
-            type="text"
-            placeholder="Start Node Column Position"
-            name="y-coord"
-            onChange={handleStartChangeCol}
-          />
+          End Position
           {/* end node row */}
           <input
             type="text"
-            placeholder="End Node Row Position"
-            name="y-coord"
+            placeholder="End Node x-coord"
+            name="x-coord"
             onChange={handleEndChangeRow}
           />
           {/* end node col */}
           <input
             type="text"
-            placeholder="End Node Column Position"
+            placeholder="End Node y-coord"
             name="y-coord"
             onChange={handleEndChangeCol}
           />

@@ -1,11 +1,6 @@
 .row {
   display: flex;
 }
-
-.screen {
-  background-size: cover;
-}
-
-.grid {
-  display: inline-block;
+.start-input {
+  float: left;
 }

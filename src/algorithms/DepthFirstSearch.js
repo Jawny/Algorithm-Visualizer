@@ -7,7 +7,6 @@ function DFS(node, grid) {
 }
 
 function searchThroughNeighboursHelper(grid, res, visited, i, j) {
-  console.log("function ran");
   if (
     i >= 0 &&
     j >= 0 &&
