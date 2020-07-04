@@ -239,15 +239,7 @@ const Grid = () => {
               grid[NODE_START_ROW][NODE_START_COL],
               grid[NODE_END_ROW][NODE_END_COL],
               grid
-            )
-          );
-          console.log("hello");
-          console.log(
-            Astar(
-              grid[NODE_START_ROW][NODE_START_COL],
-              grid[NODE_END_ROW][NODE_END_COL],
-              grid
-            )
+            ).reverse()
           );
         }}
       >
@@ -269,14 +261,14 @@ const Grid = () => {
             {/* start node row */}
             <input
               type="text"
-              placeholder="Start Node x-coord"
+              placeholder="Start Node row"
               name="x-coord"
               onChange={handleStartChangeRow}
             />
             {/* start node col */}
             <input
               type="text"
-              placeholder="Start Node y-coord"
+              placeholder="Start Node column"
               name="y-coord"
               onChange={handleStartChangeCol}
             />
@@ -287,14 +279,14 @@ const Grid = () => {
           {/* end node row */}
           <input
             type="text"
-            placeholder="End Node x-coord"
+            placeholder="End Node row"
             name="x-coord"
             onChange={handleEndChangeRow}
           />
           {/* end node col */}
           <input
             type="text"
-            placeholder="End Node y-coord"
+            placeholder="End Node column"
             name="y-coord"
             onChange={handleEndChangeCol}
           />

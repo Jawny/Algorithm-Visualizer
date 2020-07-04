@@ -13,7 +13,7 @@ function Astar(start, end, grid) {
       }
     }
     let currNode = openList[lowInd];
-
+    // if statement below does not run
     if (currNode === end) {
       let temp = currNode;
       res.push(temp);
@@ -39,17 +39,16 @@ function Astar(start, end, grid) {
           if (tempG < neighbour.g) {
             neighbour.g = tempG;
             newPath = true;
-          } else {
-            neighbour.g = tempG;
-            newPath = true;
-            openList.push(neighbour);
           }
-
-          if (newPath) {
-            neighbour.h = heruistic(neighbour, end);
-            neighbour.f = neighbour.g + neighbour.h;
-            neighbour.previous = currNode;
-          }
+        } else {
+          neighbour.g = tempG;
+          newPath = true;
+          openList.push(neighbour);
+        }
+        if (newPath) {
+          neighbour.h = heruistic(neighbour, end);
+          neighbour.f = neighbour.g + neighbour.h;
+          neighbour.previous = currNode;
         }
       }
     }
