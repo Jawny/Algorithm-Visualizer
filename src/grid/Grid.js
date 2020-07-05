@@ -3,6 +3,7 @@ import Node from "../node/Node";
 import "./Grid.css";
 import BFS from "../algorithms/BreadthFirstSearch";
 import DFS from "../algorithms/DepthFirstSearch";
+import Astar from "../algorithms/Astar";
 
 const cols = 20;
 const rows = 20;
@@ -29,24 +30,23 @@ const Grid = () => {
   };
 
   const createSpot = (grid) => {
-    let val = 0;
     // create spots
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
-        grid[i][j] = new Spot(i, j, val);
-        val += 1;
+        grid[i][j] = new Spot(i, j);
       }
     }
   };
 
   // Spot constructor
-  function Spot(i, j, val) {
+  function Spot(i, j) {
     this.x = i;
     this.y = j;
     this.g = 0;
     this.h = 0;
     this.f = 0;
-    this.val = val;
+    this.previous = null;
+    this.parent = null;
     this.isVisited = false;
     this.isStart = this.x === NODE_START_ROW && this.y === NODE_START_COL;
     this.isEnd = this.x === NODE_END_ROW && this.y === NODE_END_COL;
@@ -234,6 +234,22 @@ const Grid = () => {
         className="btn btn-primary mr-1"
         onClick={() => {
           clearGrid();
+          runAlgorithm(
+            Astar(
+              grid[NODE_START_ROW][NODE_START_COL],
+              grid[NODE_END_ROW][NODE_END_COL],
+              grid
+            ).reverse()
+          );
+        }}
+      >
+        {" "}
+        A Star Search
+      </button>
+      <button
+        className="btn btn-primary mr-1"
+        onClick={() => {
+          clearGrid();
         }}
       >
         Clear Grid
@@ -245,14 +261,14 @@ const Grid = () => {
             {/* start node row */}
             <input
               type="text"
-              placeholder="Start Node x-coord"
+              placeholder="Start Node row"
               name="x-coord"
               onChange={handleStartChangeRow}
             />
             {/* start node col */}
             <input
               type="text"
-              placeholder="Start Node y-coord"
+              placeholder="Start Node column"
               name="y-coord"
               onChange={handleStartChangeCol}
             />
@@ -263,14 +279,14 @@ const Grid = () => {
           {/* end node row */}
           <input
             type="text"
-            placeholder="End Node x-coord"
+            placeholder="End Node row"
             name="x-coord"
             onChange={handleEndChangeRow}
           />
           {/* end node col */}
           <input
             type="text"
-            placeholder="End Node y-coord"
+            placeholder="End Node column"
             name="y-coord"
             onChange={handleEndChangeCol}
           />
