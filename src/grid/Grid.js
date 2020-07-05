@@ -207,45 +207,50 @@ const Grid = () => {
     setGrid(newGrid);
   };
 
+  const algorithms = [
+    {
+      name: "Breadth First Search",
+      resultArray: function alg() {
+        return BFS(grid[NODE_START_ROW][NODE_START_COL], grid);
+      },
+    },
+    {
+      name: "Depth First Search",
+      resultArray: function alg() {
+        return DFS(grid[NODE_START_ROW][NODE_START_COL], grid);
+      },
+    },
+    {
+      name: "A Star Search",
+      resultArray: function alg() {
+        return Astar(
+          grid[NODE_START_ROW][NODE_START_COL],
+          grid[NODE_END_ROW][NODE_END_COL],
+          grid
+        ).reverse();
+      },
+    },
+  ];
+
   return (
     <div className="screen">
       <h1> Algorithm Visualizer </h1>
       <div>{gridWithNode}</div>
-      <button
-        className="btn btn-primary mr-1"
-        onClick={() => {
-          clearGrid();
-          runAlgorithm(BFS(grid[NODE_START_ROW][NODE_START_COL], grid));
-        }}
-      >
-        Breadth First Search
-      </button>
-      <button
-        className="btn btn-primary mr-1"
-        onClick={() => {
-          clearGrid();
-          runAlgorithm(DFS(grid[NODE_START_ROW][NODE_START_COL], grid));
-        }}
-      >
-        {" "}
-        Depth First Search
-      </button>
-      <button
-        className="btn btn-primary mr-1"
-        onClick={() => {
-          clearGrid();
-          runAlgorithm(
-            Astar(
-              grid[NODE_START_ROW][NODE_START_COL],
-              grid[NODE_END_ROW][NODE_END_COL],
-              grid
-            ).reverse()
-          );
-        }}
-      >
-        {" "}
-        A Star Search
-      </button>
+      {algorithms.map((algorithm, i) => {
+        return (
+          <button
+            key={i}
+            className="btn btn-primary mr-1"
+            onClick={() => {
+              clearGrid();
+              runAlgorithm(algorithm.resultArray());
+            }}
+          >
+            {algorithm.name}
+          </button>
+        );
+      })}
+
       <button
         className="btn btn-primary mr-1"
         onClick={() => {
@@ -254,6 +259,7 @@ const Grid = () => {
       >
         Clear Grid
       </button>
+
       <div>
         <div className="pull-left">
           <label>
