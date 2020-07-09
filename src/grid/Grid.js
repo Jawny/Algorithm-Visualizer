@@ -54,6 +54,7 @@ const Grid = () => {
 
   // resultNodes = result steps to play back algorithm
   const runAlgorithm = (resultNodes) => {
+    console.log(resultNodes);
     let interval = setInterval(function () {
       if (
         resultNodes[0] === grid[NODE_END_ROW][NODE_END_COL] ||
@@ -224,10 +225,10 @@ const Grid = () => {
       name: "A Star Search",
       resultArray: function alg() {
         return Astar(
-          grid[NODE_START_ROW][NODE_START_COL],
           grid[NODE_END_ROW][NODE_END_COL],
+          grid[NODE_START_ROW][NODE_START_COL],
           grid
-        ).reverse();
+        );
       },
     },
   ];
